@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GitHub PR Bot - Next.js Application
 
-## Getting Started
+This Next.js application allows users to install a GitHub PR bot on their repositories. The bot can be easily installed and uninstalled, and users can manage their installations through a user-friendly interface.
 
-First, run the development server:
+## Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. GitHub OAuth authentication
+2. List user's GitHub repositories
+3. Install bot on selected repositories
+4. View list of repositories with installed bot
+5. Uninstall bot from repositories
+6. Responsive and user-friendly interface
+
+## Tech Stack
+
+- Next.js 13 (App Router)
+- React
+- NextAuth.js for authentication
+- Octokit for GitHub API interactions
+- Tailwind CSS for styling
+- React Hot Toast for notifications
+
+## Setup Process
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- npm or yarn
+- A GitHub account
+- A GitHub OAuth App (for authentication)
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/mehulambastha/AutoPR-Reviewer-Bot-Install.git
+   cd AutoPR-Reviewer-Bot-Install
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+   or
+   ```
+   yarn install
+   ```
+
+3. Create a `.env.local` file in the root directory (see Environment Variables section below)
+
+4. Run the development server:
+   ```
+   npm run dev
+   ```
+   or
+   ```
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory of your project and add the following variables:
+
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+
+GITHUB_ID=your_github_oauth_app_client_id
+GITHUB_SECRET=your_github_oauth_app_client_secret
+
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+WEBHOOK_SECRET=your_webhook_secret
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### How to obtain the required keys/tokens/secrets:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. `NEXTAUTH_SECRET`: This is a random string used to hash tokens and sign cookies. You can generate it using this command:
+   ```
+   openssl rand -base64 32
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. `GITHUB_ID` and `GITHUB_SECRET`:
+   - Go to your GitHub account settings
+   - Navigate to "Developer settings" > "OAuth Apps"
+   - Click "New OAuth App"
+   - Fill in the application details:
+     - Application name: "GitHub PR Bot" (or your preferred name)
+     - Homepage URL: `http://localhost:3000`
+     - Authorization callback URL: `http://localhost:3000/api/auth/callback/github`
+   - Click "Register application"
+   - You'll see the `Client ID` (GITHUB_ID) and you can generate a new `Client Secret` (GITHUB_SECRET)
 
-## Learn More
+3. `NEXT_PUBLIC_API_URL`: This should be the base URL of your API. For local development, it's typically `http://localhost:3000/api`.
 
-To learn more about Next.js, take a look at the following resources:
+4. `WEBHOOK_SECRET`: This is a secret key used to secure your webhook endpoints. Generate a random string (you can use the same method as for NEXTAUTH_SECRET).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Start the application and navigate to http://localhost:3000
+2. Sign in with your GitHub account
+3. You'll see a list of your repositories
+4. Select a repository and click "Install Bot" to install the bot
+5. The installed webhooks section will show repositories where the bot is installed
+6. Click "Remove" next to a repository to uninstall the bot
 
-## Deploy on Vercel
+## API Routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/api/auth/[...nextauth]`: Handles authentication
+- `/api/repos`: Fetches user's repositories
+- `/api/webhooks`: Fetches installed webhooks
+- `/api/install`: Installs the bot on a repository
+- `/api/uninstall`: Uninstalls the bot from a repository
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.
