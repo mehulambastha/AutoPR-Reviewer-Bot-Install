@@ -52,7 +52,7 @@ export default function Home() {
       <button onClick={() => signOut()}>Sign out</button>
       <h2>Your Repositories</h2>
       <RepoSelector repos={repos} setSelectedRepo={setSelectedRepo} />
-      <button onClick={handleInstall} disabled={!selectedRepo}>
+      <button onClick={handleInstall} className='ml-5' disabled={!selectedRepo}>
         Install Bot
       </button>
       {installationStatus && <p>{installationStatus}</p>}
